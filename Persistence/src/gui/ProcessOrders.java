@@ -25,8 +25,6 @@ public class ProcessOrders extends JFrame {
 	private JLabel lblNewLabel;
 	private JButton btnProcessOrder;
 	private TablePanel table;
-	private TableModel tModel;
-	String[] employee = {"emp 1", "emp 2"}; 
 	private TableResultsPanel search;
 	private JTextField productNameSearch;
 	private JTextField textField;
