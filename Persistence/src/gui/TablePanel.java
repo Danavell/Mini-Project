@@ -15,19 +15,23 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 
-public class TablePanel extends JPanel {
+public class TablePanel extends JPanel implements ActionListener {
 	
 	private JTable table;
 	private TableModel tModel;
 	private JPopupMenu popup;
+	private JMenuItem editItem;
+	private JMenuItem removeItem;
+	private ProductTransfer transfer;
+	private DeleteRow delete;
 	
 	public TablePanel() {
 		tModel = new TableModel();
 		table = new JTable(tModel);
 		popup = new JPopupMenu();
 		
-		JMenuItem removeItem = new JMenuItem("Delete");
-		JMenuItem editItem = new JMenuItem("Edit");
+		removeItem = new JMenuItem("Delete");
+		editItem = new JMenuItem("Edit");
 		
 		popup.add(removeItem);
 		popup.add(editItem);
@@ -44,42 +48,57 @@ public class TablePanel extends JPanel {
 			}
 		});
 		
-		removeItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
-    			int option = JOptionPane.showOptionDialog(table, "Are You Sure?", null, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-    			if (option == JOptionPane.CANCEL_OPTION)
-    			{
-  	    		  
-    			} else if (option == JOptionPane.OK_OPTION)
-    			{
-    				tModel.fireTableRowsDeleted(row, row);
-    			}
-			}
-		});
-
-		editItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
-    			SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
-    			JSpinner spinner = new JSpinner(sModel);	        	
-    			int option = JOptionPane.showOptionDialog(table, spinner, "Enter amount", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-    			if (option == JOptionPane.CANCEL_OPTION)
-    			{
-  	    		  
-    			} else if (option == JOptionPane.OK_OPTION)
-    			{
-    				
-    			}
-			}		
-		});		
+		removeItem.addActionListener(this);
+		editItem.addActionListener(this); 	
 		
 		setLayout(new BorderLayout());
 			
 		add(new JScrollPane(table), BorderLayout.CENTER);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {	
+		
+		int row;
+		
+		JMenuItem menItem = (JMenuItem)e.getSource();
+
+		if(menItem == removeItem) {
+			row = table.getSelectedRow();
+			int option = JOptionPane.showOptionDialog(table, "Are You Sure?", null, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (option == JOptionPane.CANCEL_OPTION)
+			{
+	    		  
+			} else if (option == JOptionPane.OK_OPTION)
+			{
+				if(delete != null) {
+				
+					delete.delete(row);					
+					tModel.fireTableRowsDeleted(row, row);
+				}
+			}		
+		}
+		
+		if(menItem == editItem) {
+		    row = table.getSelectedRow();
+			SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
+			JSpinner spinner = new JSpinner(sModel);	        	
+			int option = JOptionPane.showOptionDialog(table, spinner, "Enter amount", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (option == JOptionPane.CANCEL_OPTION)
+			{
+  		  
+			} else if (option == JOptionPane.OK_OPTION)
+			{
+			
+			}
+		}
+	}
+	
+	public void setInterface(ProductTransfer transfer) {
+		this.transfer = transfer;
+	}
+	
+	public void setDeleteInterface(DeleteRow delete) {
+		this.delete = delete;
 	}
 }

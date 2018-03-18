@@ -2,12 +2,18 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import modellayer.Product;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
@@ -28,6 +34,10 @@ public class ProcessOrders extends JFrame {
 	private TableResultsPanel search;
 	private JTextField productNameSearch;
 	private JTextField textField;
+	private JButton btnSearch;
+	private ProductTransfer transfer;
+	private ArrayList<Product>matches = new ArrayList<>();
+	private double runningTotal;
 
 	/**
 	 * Launch the application.
@@ -48,40 +58,66 @@ public class ProcessOrders extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ProcessOrders() {
+	public ProcessOrders() {		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 915, 507);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-
-		table = new TablePanel();
-
+		
+		
+		runningTotal = 0.0;
+		
+		
+		btnAddCustomer = new JButton("Add Customer");
+		btnProcessOrder = new JButton("Process Order");
+		
+		
+		lblNewLabel = new JLabel("Customer:");
+		lblTotal = new JLabel("Total:");
+		JLabel lblSearchProductName = new JLabel("Search Product Name:");
+		
 		
 		TotalTextField = new JTextField();
 		TotalTextField.setEditable(false);
 		TotalTextField.setColumns(10);
-		
-		lblTotal = new JLabel("Total:");
-		
-		btnAddCustomer = new JButton("Add Customer");
-		
+		TotalTextField.setText(Double.toString(runningTotal));
+				
 		CustomerTextField = new JTextField();
 		CustomerTextField.setEditable(false);
 		CustomerTextField.setColumns(10);
 		
-		lblNewLabel = new JLabel("Customer:");
-		
-		btnProcessOrder = new JButton("Process Order");
-		
-		search = new TableResultsPanel();
-		
-		JLabel lblSearchProductName = new JLabel("Search Product Name:");
-		
 		productNameSearch = new JTextField();
 		productNameSearch.setColumns(10);
 		
-		JButton btnSearch = new JButton("Search");
+		
+		table = new TablePanel();
+		table.setInterface(new ProductTransfer() {
+			public void emit(Product product, int quantity) {
+				double price = product.getSalePrice() * quantity;
+				runningTotal += price;
+				TotalTextField.setText(Double.toString(runningTotal));
+			}			
+		});
+		
+		table.setDeleteInterface(new DeleteRow() {
+			public void delete(int row) {
+				matches.remove(row);
+			}
+		});
+		
+		
+		search = new TableResultsPanel();
+		
+		btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				matches.add(new Product(1, "hammer", 2.5));
+				search.setMatches(matches);
+				search.refresh();
+			}
+		});
 		
 		textField = new JTextField();
 		textField.setColumns(10);

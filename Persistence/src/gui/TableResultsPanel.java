@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -15,21 +16,25 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 
-public class TableResultsPanel extends JPanel {
+import modellayer.Product;
+
+public class TableResultsPanel extends JPanel implements ActionListener{
 	
 	private JTable table;
-	private TableModel tModel;
+	private ResultsTableModel tModel;
 	private JPopupMenu popup;
+	private JMenuItem editItem;
+	private ProductTransfer transfer;
+	private ArrayList<Product> matches;
 	
 	public TableResultsPanel() {
-		tModel = new TableModel();
+		tModel = new ResultsTableModel();
 		table = new JTable(tModel);
 		popup = new JPopupMenu();
 		
-		JMenuItem editItem = new JMenuItem("Edit");
-		
+		editItem = new JMenuItem("Edit");
 		popup.add(editItem);
-		
+
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				
@@ -43,26 +48,45 @@ public class TableResultsPanel extends JPanel {
 			
 		});
 		
-		editItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
-    			SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
-    			JSpinner spinner = new JSpinner(sModel);	        	
-    			int option = JOptionPane.showOptionDialog(table, spinner, "Enter amount", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-    			if (option == JOptionPane.CANCEL_OPTION)
-    			{
-  	    		  
-    			} else if (option == JOptionPane.OK_OPTION)
-    			{
-    				
-    			}
-			}		
-		});		
+		editItem.addActionListener(this);
 		
-		setLayout(new BorderLayout());
-			
+		setLayout(new BorderLayout());			
 		add(new JScrollPane(table), BorderLayout.CENTER);
+	}
+	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		int row;
+		if(e.getSource() == editItem) {
+			row = table.getSelectedRow();
+			Product product = matches.get(row);
+			SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
+			JSpinner spinner = new JSpinner(sModel);	        	
+			int option = JOptionPane.showOptionDialog(table, spinner, "Enter amount", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+			if (option == JOptionPane.CANCEL_OPTION)
+			{
+  		 
+			} else if (option == JOptionPane.OK_OPTION)
+			{
+				if(transfer != null) {
+					int quantity = (int) spinner.getValue();					
+					transfer.emit(product, quantity);
+				}	
+			}	
+		}	
+	}	
+	
+	public void refresh() {
+		tModel.fireTableDataChanged();
+	}
+	
+	public void setMatches(ArrayList<Product> matches) {
+		tModel.setMatches(matches);
+	}
+	
+	public void setInterface(ProductTransfer transfer) {
+		this.transfer = transfer;
 	}
 }
