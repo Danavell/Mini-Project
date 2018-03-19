@@ -1,16 +1,17 @@
-package DbLayer;
+package DBLayer;
 
 public class DbConnectionTest {
 
-	public void test() {
-		DbConnection dbCon = DbConnection.getInstance();
-		if(dbCon != null)
-		{
-			System.out.println("Conecction to DB is ok");
-		}
-		else{
-		    //fail("Can not connect to the DB");
-		}
-	}
+	public static void main(String[] args) {
+		
 
+		try {
+			DbConnection.getInstance().connect();
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+
+
+}
 }

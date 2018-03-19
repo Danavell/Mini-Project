@@ -1,4 +1,4 @@
-package DbLayer;
+package DBLayer;
 
 import java.sql.*;
 
@@ -14,7 +14,7 @@ public class DbConnection {   //Constants used to get access to the database
     private static final String driver = "jdbc:sqlserver://kraka.ucn.dk:1433";
     private static final String databaseName = ";databaseName=dmaj0917_1067666";
 
-    private static String userName = "; user=dmaj0917_1067666";
+    private static String userName = ";user=dmaj0917_1067666";
     private static String password = ";password=Password1!";
 
     private DatabaseMetaData dma;
@@ -29,7 +29,7 @@ public class DbConnection {   //Constants used to get access to the database
 
         try {
             //load of driver
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             System.out.println("Driver class loaded ok");
 
         } catch (Exception e) {
@@ -52,6 +52,18 @@ public class DbConnection {   //Constants used to get access to the database
         }//end catch
     }//end  constructor
 
+    public void connect() throws Exception
+    {
+    	try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			throw new Exception("Driver couldn't load");
+		}
+    	
+    	String url = driver + databaseName + userName + password;
+    	con = DriverManager.getConnection(url);
+    }
+    
     //closeDb: closes the connection to the database
     public static void closeConnection() {
         try {
