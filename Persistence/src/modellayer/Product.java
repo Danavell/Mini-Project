@@ -10,25 +10,11 @@ public class Product {
 	private final String prodName;
 	private final double salePrice;
 	
-	public ArrayList<Product> products;
-
-	
 	public Product(int prodID, String prodName, double salePrice) {
 		this.prodID = prodID;
 		this.prodName = prodName;
 		this.salePrice = salePrice;
 	}
-
-	
-	public ArrayList<Product> getProducts() {
-		return products;
-	}
-
-
-	public void setProducts(ArrayList<Product> products) {
-		this.products = products;
-	}
-
 
 	public int getQuantity() {
 		return quantity;
