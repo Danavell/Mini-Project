@@ -93,7 +93,6 @@ public class ProcessOrders extends JFrame {
 		table.setDeleteInterface(new DeleteRow() {
 			public void delete(int row) {
 				sales.remove(row);
-				System.out.println(sales.size());
 			}
 		});
 		

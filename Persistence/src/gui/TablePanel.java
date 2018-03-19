@@ -77,7 +77,7 @@ public class TablePanel extends JPanel implements ActionListener {
 			{
 				if(delete != null) {				
 					delete.delete(row);
-					tModel.fireTableRowsDeleted(row, row);				
+					refresh();
 				}
 			}		
 		}
@@ -92,7 +92,9 @@ public class TablePanel extends JPanel implements ActionListener {
   		  
 			} else if (option == JOptionPane.OK_OPTION)
 			{
-			
+				int quantity = (int)spinner.getValue();
+				matches.get(row).setQuantity(quantity);
+				refresh();
 			}
 		}
 	}
@@ -100,6 +102,7 @@ public class TablePanel extends JPanel implements ActionListener {
 	public void refresh() {
 		tModel.fireTableDataChanged();
 	}
+	
 	
 	public void setMatch(Product product) {
 		matches.add(product);
@@ -110,6 +113,7 @@ public class TablePanel extends JPanel implements ActionListener {
 	public void setInterface(ProductTransfer transfer) {
 		this.transfer = transfer;
 	}
+	
 	
 	public void setDeleteInterface(DeleteRow delete) {
 		this.delete = delete;
