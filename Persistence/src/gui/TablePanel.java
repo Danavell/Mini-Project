@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -15,6 +16,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 
+import modellayer.Product;
+
 public class TablePanel extends JPanel implements ActionListener {
 	
 	private JTable table;
@@ -24,6 +27,7 @@ public class TablePanel extends JPanel implements ActionListener {
 	private JMenuItem removeItem;
 	private ProductTransfer transfer;
 	private DeleteRow delete;
+	private ArrayList<Product>matches = new ArrayList<>();
 	
 	public TablePanel() {
 		tModel = new TableModel();
@@ -71,10 +75,9 @@ public class TablePanel extends JPanel implements ActionListener {
 	    		  
 			} else if (option == JOptionPane.OK_OPTION)
 			{
-				if(delete != null) {
-				
-					delete.delete(row);					
-					tModel.fireTableRowsDeleted(row, row);
+				if(delete != null) {				
+					delete.delete(row);
+					tModel.fireTableRowsDeleted(row, row);				
 				}
 			}		
 		}
@@ -93,6 +96,16 @@ public class TablePanel extends JPanel implements ActionListener {
 			}
 		}
 	}
+	
+	public void refresh() {
+		tModel.fireTableDataChanged();
+	}
+	
+	public void setMatch(Product product) {
+		matches.add(product);
+		tModel.setSaleLines(matches);
+	}	
+	
 	
 	public void setInterface(ProductTransfer transfer) {
 		this.transfer = transfer;

@@ -33,8 +33,6 @@ public class ResultsTableModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int row, int col) {
 		Product product = matches.get(row);
-
-		System.out.print(matches.get(0).getProdName());
 		
 		switch(col) {
 		case 0:

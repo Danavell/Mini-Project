@@ -10,7 +10,7 @@ import modellayer.Product;
 public class TableModel extends AbstractTableModel {
 
 	private String[] colNames = {"Name", "Product ID", "Quantity", "Price"};
-	private ArrayList<Product>matches;
+	private ArrayList<Product>matches = new ArrayList<>();
 
 	public String getColumnName(int column) {
 		return colNames[column];
@@ -24,19 +24,27 @@ public class TableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return matches.size();
 	}
 
 	@Override
-	public Object getValueAt(int arg0, int arg1) {
-		// TODO Auto-generated method stub
+	public Object getValueAt(int row, int col) {
+		Product product = matches.get(row);
+		
+		switch(col) {
+		case 0:
+			return product.getProdName();
+		case 1:
+			return product.getProdID();
+		case 2:
+			return product.getQuantity();
+		case 3:
+			return product.getSalePrice();
+		}
 		return null;
 	}
 
 	public void setSaleLines(ArrayList<Product>matches) {
 		this.matches = matches;
 	}
-	
-	
 }

@@ -36,12 +36,10 @@ public class ProcessOrders extends JFrame {
 	private JTextField textField;
 	private JButton btnSearch;
 	private ProductTransfer transfer;
-	private ArrayList<Product>matches = new ArrayList<>();
+	private ArrayList<Product>sales = new ArrayList<>();	
 	private double runningTotal;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -55,9 +53,7 @@ public class ProcessOrders extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
 	public ProcessOrders() {		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 915, 507);
@@ -92,27 +88,34 @@ public class ProcessOrders extends JFrame {
 		
 		
 		table = new TablePanel();
-		table.setInterface(new ProductTransfer() {
-			public void emit(Product product, int quantity) {
-				double price = product.getSalePrice() * quantity;
-				runningTotal += price;
-				TotalTextField.setText(Double.toString(runningTotal));
-			}			
-		});
+		
 		
 		table.setDeleteInterface(new DeleteRow() {
 			public void delete(int row) {
-				matches.remove(row);
+				sales.remove(row);
+				System.out.println(sales.size());
 			}
 		});
 		
 		
 		search = new TableResultsPanel();
 		
+		search.setInterface(new ProductTransfer() {
+			public void emit(Product product) {
+				double price = product.getSalePrice() * product.getQuantity();
+				runningTotal += price;
+				TotalTextField.setText(Double.toString(runningTotal));
+				sales.add(product);
+				
+				table.setMatch(product);
+				table.refresh();				
+			}			
+		});
+		
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				ArrayList<Product>matches = new ArrayList<>();
 				matches.add(new Product(1, "hammer", 2.5));
 				search.setMatches(matches);
 				search.refresh();
