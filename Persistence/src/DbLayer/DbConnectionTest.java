@@ -4,7 +4,6 @@ public class DbConnectionTest {
 
 	public static void main(String[] args) {
 		
-
 		try {
 			DbConnection.getInstance().connect();
 		} catch (Exception e) {
@@ -12,6 +11,5 @@ public class DbConnectionTest {
 			e.printStackTrace();
 		}
 
-
-}
+	}
 }

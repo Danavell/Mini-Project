@@ -1,5 +1,7 @@
 package modellayer;
 
+import java.util.ArrayList;
+
 public class Product {
 	
 	private int quantity;	
@@ -7,6 +9,8 @@ public class Product {
 	private final int prodID;
 	private final String prodName;
 	private final double salePrice;
+	
+	public ArrayList<Product> products;
 
 	
 	public Product(int prodID, String prodName, double salePrice) {
@@ -16,6 +20,16 @@ public class Product {
 	}
 
 	
+	public ArrayList<Product> getProducts() {
+		return products;
+	}
+
+
+	public void setProducts(ArrayList<Product> products) {
+		this.products = products;
+	}
+
+
 	public int getQuantity() {
 		return quantity;
 	}
