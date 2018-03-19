@@ -2,7 +2,6 @@ package gui;
 
 import modellayer.Product;
 
-public interface ProductTransfer {
+public interface ProductTransfer { 
 	public void emit(Product product);
-
 }

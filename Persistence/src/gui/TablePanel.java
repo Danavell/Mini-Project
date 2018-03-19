@@ -77,10 +77,10 @@ public class TablePanel extends JPanel implements ActionListener {
 			{
 				if(delete != null) {				
 					delete.delete(row);
-					refresh();
-				}
-			}		
-		}
+					tModel.fireTableRowsDeleted(row, row);
+			}
+		}		
+	}
 		
 		if(menItem == editItem) {
 		    row = table.getSelectedRow();
@@ -103,17 +103,14 @@ public class TablePanel extends JPanel implements ActionListener {
 		tModel.fireTableDataChanged();
 	}
 	
-	
 	public void setMatch(Product product) {
 		matches.add(product);
 		tModel.setSaleLines(matches);
 	}	
 	
-	
 	public void setInterface(ProductTransfer transfer) {
 		this.transfer = transfer;
 	}
-	
 	
 	public void setDeleteInterface(DeleteRow delete) {
 		this.delete = delete;
