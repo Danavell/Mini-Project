@@ -25,5 +25,12 @@ public class DbConnectionTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		try {
+			dbp.load();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

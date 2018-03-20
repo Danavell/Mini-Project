@@ -7,9 +7,9 @@ import java.sql.DriverManager;
 public class DbConnection {
 
 	private static final String driver = "jdbc:sqlserver://kraka.ucn.dk:1433";
-    private static final String databaseName = ";databaseName=dmaj0917_1067666";
+    private static final String databaseName = ";databaseName=dmaj0917_1067658";
 
-    private static String userName = ";user=dmaj0917_1067666";
+    private static String userName = ";user=dmaj0917_1067658";
     private static String password = ";password=Password1!";
 
     private DatabaseMetaData dma;

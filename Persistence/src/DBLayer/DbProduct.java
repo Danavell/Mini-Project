@@ -97,7 +97,7 @@ public class DbProduct {
 	{
 		products.clear();
 		
-		String sql = "select ProdID, ProdName, Saleprice, SupplierPrice, RentPrice, Stock, MinStock, SupplierID";
+		String sql = "select * from Product";
 		Statement selectStatement = con.createStatement();
 		
 		ResultSet results = selectStatement.executeQuery(sql);
@@ -116,7 +116,7 @@ public class DbProduct {
 			Product product = new Product(id,name,price,supplierprice,rentprice,stock,minstock,supplierid);
 			products.add(product);
 			
-			System.out.println(products);
+			System.out.println(product.getProdName());
 		}
 		
 		

@@ -115,7 +115,7 @@ public class ProcessOrders extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Product>matches = new ArrayList<>();
-				matches.add(new Product("Dildo",1,1,1,1,1,1));
+				matches.add(new Product(1,"Dildo",1,1,1,1,1,1));
 				search.setMatches(matches);
 				search.refresh();
 			}
