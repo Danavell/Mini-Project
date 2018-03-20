@@ -49,4 +49,10 @@ public class ResultsTableModel extends AbstractTableModel {
 	public void setMatches(ArrayList<Product>matches) {
 		this.matches = matches;
 	}
+
+
+	public void clear() {
+		matches.clear();
+		super.fireTableDataChanged();
+	}
 }

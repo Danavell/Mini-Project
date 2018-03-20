@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import modellayer.Product;
 
-public class DbProduct {
+public class DbProduct implements IFDBProd {
 
 	private ArrayList<Product> products;
 	private Connection con = DbConnection.getInstance().getDBcon();
@@ -117,10 +117,18 @@ public class DbProduct {
 			products.add(product);
 			
 			System.out.println(product.getProdName());
-		}
-		
-		
-		
-		
+		}			
+	}
+	
+	
+	@Override
+	public ArrayList<Product> searchProductName(String prodName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Product searchProductID(String prodID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

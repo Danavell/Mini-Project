@@ -27,6 +27,7 @@ public class TablePanel extends JPanel implements ActionListener {
 	private JMenuItem removeItem;
 	private ProductTransfer transfer;
 	private DeleteRow delete;
+	private ChangeQuantity change;
 	private ArrayList<Product>matches = new ArrayList<>();
 	
 	public TablePanel() {
@@ -93,7 +94,7 @@ public class TablePanel extends JPanel implements ActionListener {
 			} else if (option == JOptionPane.OK_OPTION)
 			{
 				int quantity = (int)spinner.getValue();
-				matches.get(row).setQuantity(quantity);
+				change.change(quantity, row);
 				refresh();
 			}
 		}
@@ -101,6 +102,11 @@ public class TablePanel extends JPanel implements ActionListener {
 	
 	public void refresh() {
 		tModel.fireTableDataChanged();
+	}
+	
+	public void clear() {
+		matches.clear();
+		tModel.clear();
 	}
 	
 	public void setMatch(Product product) {
@@ -114,5 +120,9 @@ public class TablePanel extends JPanel implements ActionListener {
 	
 	public void setDeleteInterface(DeleteRow delete) {
 		this.delete = delete;
+	}
+	
+	public void setChangeQuantity(ChangeQuantity change) {
+		this.change = change;
 	}
 }

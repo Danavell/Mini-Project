@@ -54,8 +54,7 @@ public class TableResultsPanel extends JPanel {
 					{
 						if(transfer != null) {
 							int quantity = (int) spinner.getValue();
-							product.setQuantity(quantity);
-							transfer.emit(product);
+							transfer.emit(product, quantity);
 						}	
 					}
 				}
@@ -73,6 +72,17 @@ public class TableResultsPanel extends JPanel {
 	public void setMatches(ArrayList<Product> matches) {
 		tModel.setMatches(matches);
 		this.matches = matches;
+	}
+	
+	public void setSingleMatch(Product product) {
+		matches.clear();
+		matches.add(product);
+		tModel.setMatches(matches);
+	}
+	
+	public void clear() {
+		matches.clear();
+		tModel.clear();
 	}
 	
 	public void setInterface(ProductTransfer transfer) {

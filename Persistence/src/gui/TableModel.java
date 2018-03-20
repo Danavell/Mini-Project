@@ -47,4 +47,17 @@ public class TableModel extends AbstractTableModel {
 	public void setSaleLines(ArrayList<Product>matches) {
 		this.matches = matches;
 	}
+	
+	
+	@Override
+	public void fireTableRowsDeleted(int firstRow, int lastRow) {
+		// TODO Auto-generated method stub
+		matches.remove(firstRow);
+		super.fireTableRowsDeleted(firstRow, lastRow);
+	}
+	
+	public void clear() {
+		matches.clear();
+		super.fireTableDataChanged();
+	}
 }
